@@ -1,0 +1,33 @@
+{
+  "name": "house-of-kings",
+  "version": "0.0.1",
+  "description": "house of kings card game",
+  "main": "index.js",
+  "author": "Charly Riviere",
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "bulma": "^0.5.1",
+    "css-loader": "^0.28.5",
+    "express": "^4.15.4",
+    "html-webpack-plugin": "^2.30.1",
+    "npm-run-all": "^4.0.2",
+    "postcss-loader": "^2.0.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-hot-loader": "next",
+    "start-server-webpack-plugin": "^2.2.0",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "scripts": {
+    "start:client": "webpack-dev-server --config webpack.config.client.js",
+    "start:server": "rm -rf ./build && webpack --config config/webpack.config.server.js",
+    "start": "rm -rf ./.build && npm-run-all --parallel start:server"
+  }
+}
