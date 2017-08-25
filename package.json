@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start:client": "webpack-dev-server --config webpack.config.client.js",
-    "start:server": "rm -rf ./build && webpack --config config/webpack.config.server.js",
-    "start": "rm -rf ./.build && npm-run-all --parallel start:server"
+    "start:server": "rm -rf ./build && webpack --config webpack.config.server.js",
+    "start": "rm -rf ./.build && npm-run-all --parallel start:server start:client"
   }
 }
