@@ -8,6 +8,12 @@ let currentApp = apiServer
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' connected')
+    io.emit('userConnected',{id:socket.id});
+
+    socket.on('disconnect', (reason) => {
+        console.log(socket.id + ' disconnected')
+        io.emit('userDisconnected',{id:socket.id});
+    })
 })
 
 httpServer.listen(3000)

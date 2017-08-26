@@ -28,8 +28,13 @@
     "webpack-node-externals": "^1.6.0"
   },
   "scripts": {
+    "test": "jest",
     "start:client": "webpack-dev-server --config webpack.config.client.js",
     "start:server": "rm -rf ./build && webpack --config webpack.config.server.js",
     "start": "rm -rf ./.build && npm-run-all --parallel start:server start:client"
+  },
+  "devDependencies": {
+    "babel-jest": "^20.0.3",
+    "jest": "^20.0.4"
   }
 }

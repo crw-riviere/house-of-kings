@@ -1,3 +1,5 @@
+'use strict';
+
 const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -17,7 +19,7 @@ module.exports = {
     target: 'web',
     module: {
         rules: [{
-            test: /\.js?$/,
+            test: /\.(js|jsx)$/,
             use: 'babel-loader',
             include: [
                 path.join(__dirname, 'src/client'),
