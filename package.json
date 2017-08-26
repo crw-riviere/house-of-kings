@@ -19,6 +19,8 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-hot-loader": "next",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3",
     "start-server-webpack-plugin": "^2.2.0",
     "style-loader": "^0.18.2",
     "webpack": "^3.5.5",
