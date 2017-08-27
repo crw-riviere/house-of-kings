@@ -1,32 +1,36 @@
+import Deck from './deck'
+
 export default class Game {
     constructor(id, cards, users) {
         this.id = id
-        this.cards = cards
+        this.cards = cards || Deck.full()
         this.users = users || []
     }
 
-    get cardCount(){
+    get cardCount() {
         return this.cards.length
     }
 
-    get userCount(){
+    get userCount() {
         return this.users.length
     }
 
-    get currentUserTurn(){
+    get currentUserTurn() {
         return this.users[0]
     }
 
-    get nextUserTurn(){
+    get nextUserTurn() {
         this.users.push(this.users.shift())
         return this.currentUserTurn
     }
 
-    addUser(userId){
+    addUser(userId) {
         this.users.push(userId)
     }
 
-    pickCard(){
-        return this.cards.pop()
+    userPickCard(userId) {
+        if (this.currentUserTurn === userId) {
+            return this.cards.pop()
+        }
     }
 }
