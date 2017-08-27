@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 
 function UserList(props) {
     const users = props.users
-    const userList = users.map((user) =>
-        <li key={user.id}>{user.id}</li>
+    const userList = users.map((userId) =>
+        <li key={userId}>{userId}</li>
     )
     return (
         <div>

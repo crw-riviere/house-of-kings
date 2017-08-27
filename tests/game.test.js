@@ -27,12 +27,20 @@ test('get next user turn iterates over users', () => {
     const game = new Game(1,Deck.Full,['Fliss', 'Coco', 'Jacques'])
     expect(game.currentUserTurn).toBe('Fliss')
 
-    const firstNextUser = game.nextUserTurn
+    const firstNextUser = game.nextUserTurn()
     expect(firstNextUser).toBe('Coco')
 
-    const secondNextUser = game.nextUserTurn
+    const secondNextUser = game.nextUserTurn()
     expect(secondNextUser).toBe('Jacques')
 
-    const thirdNextUser = game.nextUserTurn
+    const thirdNextUser = game.nextUserTurn()
     expect(thirdNextUser).toBe('Fliss')
+})
+
+test('remove user removes the user from the user list', () => {
+    const game = new Game(1,Deck.full(), ['Fliss', 'Coco'])
+    expect(game.users).toEqual(['Fliss', 'Coco'])
+
+    game.removeUser('Coco')
+    expect(game.users).toEqual(['Fliss'])
 })

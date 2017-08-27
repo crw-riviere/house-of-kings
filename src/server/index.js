@@ -24,9 +24,10 @@ io.on('connection', (socket) => {
         game.addUser(socket.id)
         socket.join(defaultGameName)
         io.to(defaultGameName).emit('userJoinedGame', {
-            userId: socket.id,
+            joinedUserId: socket.id,
             gameId: game.id,
-            currentUserTurn: game.currentUserTurn
+            currentUserTurn: game.currentUserTurn,
+            users:game.users
         })
     })
 
@@ -41,13 +42,17 @@ io.on('connection', (socket) => {
                 userId: socket.id,
                 card: pickedCard
             })
+            game.nextUserTurn()
         }
     })
 
     socket.on('disconnect', (reason) => {
         console.log(socket.id + ' disconnected')
+        const game = gameList.getGame(socket.gameId)
+        game.removeUser(socket.id)
         io.emit('userDisconnected', {
-            id: socket.id
+            userId: socket.id,
+            users:game.users
         });
     })
 })

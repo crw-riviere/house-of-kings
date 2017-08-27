@@ -15,11 +15,11 @@ class App extends React.Component {
         }
 
         socket.on('userConnected', (user) => {
-            this.handleUserConnect(user);
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
-            console.log(`${gameInfo.userId} joined ${gameInfo.gameId}, ${gameInfo.currentUserTurn} has current turn`)
+            console.log(`${gameInfo.joinedUserId} joined ${gameInfo.gameId}, ${gameInfo.currentUserTurn} has current turn`)
+            this.setState({users:gameInfo.users})
         })
 
         socket.on('userPickedCard', pickInfo => {
@@ -27,27 +27,22 @@ class App extends React.Component {
             this.setState({ card: pickInfo.card })
         })
 
-        socket.on('userDisconnected', (user) => {
-            this.handleUserDisconnect(user);
+        socket.on('userDisconnected', (userInfo) => {
+            this.handleUserDisconnect(userInfo);
         })
     }
 
     handleUserConnect(user) {
-        let userList = this.state.users;
-        userList.push(user)
-        this.setState({
-            users: userList
-        })
+        
     }
 
     handlePickCard() {
         socket.emit('pickCard')
     }
 
-    handleUserDisconnect(user) {
-        let userList = this.state.users.filter(i => i.id !== user.id)
+    handleUserDisconnect(userInfo) {
         this.setState({
-            users: userList
+            users: userInfo.users
         })
     }
 

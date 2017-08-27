@@ -19,7 +19,7 @@ export default class Game {
         return this.users[0]
     }
 
-    get nextUserTurn() {
+    nextUserTurn() {
         this.users.push(this.users.shift())
         return this.currentUserTurn
     }
@@ -32,5 +32,10 @@ export default class Game {
         if (this.currentUserTurn === userId) {
             return this.cards.pop()
         }
+    }
+
+    removeUser(userId){
+        const newUserList = this.users.filter(x => x !== userId)
+        this.users = newUserList
     }
 }
