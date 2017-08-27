@@ -14,6 +14,14 @@ class App extends React.Component{
             this.handleUserConnect(user);
         })
 
+        socket.on('userJoinedGame', (gameInfo) => {
+            console.log(gameInfo.userId + ' joined ' + gameInfo.gameName)
+        })
+
+        socket.on('userPickedCard', pickInfo => {
+            console.log(`${pickInfo.userId} picked ${pickInfo.card.number + pickInfo.card.suit}`)
+        })
+        
         socket.on('userDisconnected',(user) => {
             this.handleUserDisconnect(user);
         })
@@ -25,6 +33,10 @@ class App extends React.Component{
             this.setState({
                 users:userList
             })
+    }
+
+    handlePickCard(){
+        socket.emit('pickCard')
     }
 
     handleUserDisconnect(user){
@@ -43,6 +55,8 @@ class App extends React.Component{
             <section className="section">
                 <div className="container">
                     <h1>Hey Fliss!!!</h1>
+                    <a className="button" 
+                    onClick={() => this.handlePickCard()}>Pick Card</a>
                     <UserList users={users}/>
                 </div>
             </section>
