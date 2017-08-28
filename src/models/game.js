@@ -3,12 +3,16 @@ import Deck from './deck'
 export default class Game {
     constructor(id, cards, users) {
         this.id = id
-        this.cards = cards || Deck.full()
+        this.cards = cards || Deck.fullShuffled()
         this.users = users || []
     }
 
     get cardCount() {
         return this.cards.length
+    }
+
+    get kingCount(){
+        return this.cards.filter(x => x.number === 'K').length
     }
 
     get userCount() {

@@ -3,18 +3,18 @@ import Deck from '../src/models/deck'
 
 test('pick card removes a card from the deck', () => {
     const game = new Game(1, null, [1])
-    expect(game.cards.length).toBe(52)
+    expect(game.cardCount).toBe(52)
     
     game.userPickCard(1)
-    expect(game.cards.length).toBe(51)
+    expect(game.cardCount).toBe(51)
 })
 
 test('add user adds a user to the game', () => {
     const game = new Game(1)
-    expect(game.users.length).toBe(0)
+    expect(game.userCount).toBe(0)
     
     game.addUser('Fliss')
-    expect(game.users.length).toBe(1)
+    expect(game.userCount).toBe(1)
     expect(game.users).toContain('Fliss')
 })
 
@@ -43,4 +43,12 @@ test('remove user removes the user from the user list', () => {
 
     game.removeUser('Coco')
     expect(game.users).toEqual(['Fliss'])
+})
+
+test('king count should return how many kings are left in the deck', () => {
+    const game = new Game(1,[{suit:'',number:'K'},{suit:'',number:'K'},], [1])
+    expect(game.kingCount).toEqual(2)
+
+    game.userPickCard(1)
+    expect(game.kingCount).toBe(1)
 })

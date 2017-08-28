@@ -3,6 +3,7 @@ import openSocket from 'socket.io-client'
 import 'bulma/css/bulma.css'
 import UserList from './UserList.jsx'
 import Card from './Card.jsx'
+import Narrator from './Narrator.jsx'
 
 const socket = openSocket('http://localhost:3000');
 
@@ -11,20 +12,31 @@ class App extends React.Component {
         super();
         this.state = {
             users: [],
-            card: null
+            quote: 'Welcome',
+            card: null,
+            rule:null,
+            cardCount:52,
+            kingCount:4
         }
 
         socket.on('userConnected', (user) => {
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
-            console.log(`${gameInfo.joinedUserId} joined ${gameInfo.gameId}, ${gameInfo.currentUserTurn} has current turn`)
-            this.setState({users:gameInfo.users})
+            this.setState({
+                users: gameInfo.users,
+                quote: `${gameInfo.joinedUserId} joined ${gameInfo.gameId}, ${gameInfo.currentUserTurn} has current turn`
+            })
         })
 
         socket.on('userPickedCard', pickInfo => {
-            console.log(`${pickInfo.userId} picked ${pickInfo.card.number + pickInfo.card.suit}`)
-            this.setState({ card: pickInfo.card })
+            this.setState({
+                card: pickInfo.card,
+                quote: `${pickInfo.userId} picked ${pickInfo.card.number + pickInfo.card.suit}, ${pickInfo.nextUserTurn} has turn`,
+                rule: pickInfo.rule,
+                cardCount:pickInfo.cardCount,
+                kingCount:pickInfo.kingCount
+            })
         })
 
         socket.on('userDisconnected', (userInfo) => {
@@ -33,7 +45,7 @@ class App extends React.Component {
     }
 
     handleUserConnect(user) {
-        
+
     }
 
     handlePickCard() {
@@ -54,18 +66,48 @@ class App extends React.Component {
         const users = this.state.users
         let card = 'No card'
         if (this.state.card) {
-            card = <Card number={this.state.card.number} suit={this.state.card.suit} />
+            card = <Card number={this.state.card.number} suit={this.state.card.suit} rule={this.state.rule}/>
         }
         return (
-            <section className="section">
-                <div className="container">
-                    <h1>House of Kings</h1>
-                    {card}
-                    <a className="button"
-                        onClick={() => this.handlePickCard()}>Pick Card</a>
-                    <UserList users={users} />
-                </div>
-            </section>
+            <div>
+                <nav className="navbar">
+                    <div className="navbar-brand">
+                        <a className="navbar-item">
+                            House of Kings
+                        </a>
+                    </div>
+                </nav>
+                <section className="section">
+                    <Narrator quote={this.state.quote} />
+                    <div className="container">
+                        {card}
+                        <UserList users={users} />
+                        <nav className="level is-mobile">
+                            <div className="level-item has-text-centered">
+                                <div>
+                                    <p className="heading">Cards</p>
+                                    <p className="title">{this.state.cardCount}</p>
+                                </div>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <div>
+                                    <p className="heading">Kings</p>
+                                    <p className="title">{this.state.kingCount}</p>
+                                </div>
+                            </div>
+                        </nav>
+                        <a className="button is-large is-fullwidth"
+                            onClick={() => this.handlePickCard()}>Pick Card</a>
+                    </div>
+                </section>
+                <footer className="footer">
+                    <div className="container">
+                        <div className="content has-text-centered">
+                            <p>Made by Fliss and Coco</p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
         )
     }
 }

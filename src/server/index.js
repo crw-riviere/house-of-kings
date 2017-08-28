@@ -3,6 +3,7 @@ import apiServer from './server'
 import Deck from '../models/deck'
 import Game from '../models/game'
 import GameList from '../models/gameList'
+import {rules} from '../models/rules.js'
 
 const httpServer = http.createServer(apiServer)
 let io = require('socket.io')(httpServer)
@@ -37,12 +38,17 @@ io.on('connection', (socket) => {
 
         if (pickedCard) {
             console.log(`${socket.id} picked ${pickedCard.number + pickedCard.suit}`)
+            const nextUserTurn = game.nextUserTurn()
+            const rule = rules.get(pickedCard.number)
 
             io.to(game.id).emit('userPickedCard', {
                 userId: socket.id,
-                card: pickedCard
+                card: pickedCard,
+                nextUserTurn,
+                rule,
+                cardCount: game.cardCount,
+                kingCount: game.kingCount
             })
-            game.nextUserTurn()
         }
     })
 

@@ -1,19 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-function UserList(props) {
+export default function UserList(props) {
     const users = props.users
     const userList = users.map((userId) =>
-        <li key={userId}>{userId}</li>
+        <span className="tag" key={userId}>{userId}</span>
     )
     return (
-        <div>
-            <h2>List</h2>
-            <ul>
+            <div className="tags">
                 {userList}
-            </ul>
-        </div>
+            </div>
     )
 }
-
-export default UserList
