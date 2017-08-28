@@ -3,6 +3,7 @@ import openSocket from 'socket.io-client'
 import 'bulma/css/bulma.css'
 import UserList from './UserList.jsx'
 import Card from './Card.jsx'
+import CardButton from './CardButton.jsx'
 import Narrator from './Narrator.jsx'
 
 const socket = openSocket('http://localhost:3000');
@@ -11,6 +12,7 @@ class App extends React.Component {
     constructor() {
         super();
         this.state = {
+            isTurn: false,
             users: [],
             quote: 'Welcome',
             card: null,
@@ -23,14 +25,22 @@ class App extends React.Component {
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
+            console.log(socket.id)
+            console.log(gameInfo.currentUserTurn)
+            const myTurn = gameInfo.currentUserTurn === socket.id
             this.setState({
+                isTurn: myTurn,
                 users: gameInfo.users,
                 quote: `${gameInfo.joinedUserId} joined ${gameInfo.gameId}, ${gameInfo.currentUserTurn} has current turn`
             })
         })
 
         socket.on('userPickedCard', pickInfo => {
+            console.log(socket.id)
+            console.log(pickInfo.userId)
+            const myTurn = pickInfo.userId === socket.id 
             this.setState({
+                isTurn: myTurn,
                 card: pickInfo.card,
                 quote: `${pickInfo.userId} picked ${pickInfo.card.number + pickInfo.card.suit}, ${pickInfo.nextUserTurn} has turn`,
                 rule: pickInfo.rule,
@@ -64,6 +74,7 @@ class App extends React.Component {
 
     render() {
         const users = this.state.users
+        const myTurn = this.state.isTurn
         let card = 'No card'
         if (this.state.card) {
             card = <Card number={this.state.card.number} suit={this.state.card.suit} rule={this.state.rule}/>
@@ -96,8 +107,7 @@ class App extends React.Component {
                                 </div>
                             </div>
                         </nav>
-                        <a className="button is-large is-fullwidth"
-                            onClick={() => this.handlePickCard()}>Pick Card</a>
+                        <CardButton isTurn={myTurn} onHandlePickCard={() => this.handlePickCard()}/>
                     </div>
                 </section>
                 <footer className="footer">
