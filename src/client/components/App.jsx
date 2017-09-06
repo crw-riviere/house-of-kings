@@ -1,11 +1,13 @@
 import React from 'react'
 import openSocket from 'socket.io-client'
 import 'bulma/css/bulma.css'
+import '../App.css'
 import UserList from './UserList.jsx'
 import Card from './Card.jsx'
 import CardButton from './CardButton.jsx'
 import Audit from './Audit.jsx'
 import UsernameModal from './UsernameModal.jsx'
+import Deck from '../../models/deck.js'
 
 const socket = openSocket('http://localhost:3000');
 
@@ -30,9 +32,11 @@ class App extends React.Component {
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
-            const myTurn = gameInfo.currentUserTurn === socket.id
+            const myTurn = gameInfo.currentUserTurn === this.state.username
             let audit = this.state.audit
-            audit.push(`${gameInfo.joinedUserId} joined ${gameInfo.gameId}`, `${gameInfo.currentUserTurn} has current turn`)
+            audit.push(
+                <span>{gameInfo.joinedUserId} joined {gameInfo.gameId}</span>, 
+                <span>{gameInfo.currentUserTurn} has current turn</span>)
             this.setState({
                 isTurn: myTurn,
                 users: gameInfo.users,
@@ -41,9 +45,11 @@ class App extends React.Component {
         })
 
         socket.on('userPickedCard', pickInfo => {
-            const myTurn = pickInfo.userId === socket.id 
+            const myTurn = pickInfo.userId === this.state.username 
             let audit = this.state.audit
-            audit.push(`${pickInfo.userId} picked ${pickInfo.card.number + pickInfo.card.suit}`, `${pickInfo.nextUserTurn} has turn`)
+            audit.push(
+                <span>{pickInfo.userId} picked <span className={Deck.getCardColor(pickInfo.card.suit)+'-card'}>{pickInfo.card.number + pickInfo.card.suit}</span></span>, 
+                <span>{pickInfo.nextUserTurn} has current turn</span>)
             this.setState({
                 isTurn: myTurn,
                 card: pickInfo.card,
