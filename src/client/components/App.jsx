@@ -4,7 +4,7 @@ import 'bulma/css/bulma.css'
 import UserList from './UserList.jsx'
 import Card from './Card.jsx'
 import CardButton from './CardButton.jsx'
-import Narrator from './Narrator.jsx'
+import Audit from './Audit.jsx'
 import UsernameModal from './UsernameModal.jsx'
 
 const socket = openSocket('http://localhost:3000');
@@ -16,7 +16,7 @@ class App extends React.Component {
             username:undefined,
             isTurn: false,
             users: [],
-            quote: 'Welcome',
+            audit: [],
             card: null,
             rule:null,
             cardCount:52,
@@ -26,23 +26,28 @@ class App extends React.Component {
         this.handleUsernameSelected = this.handleUsernameSelected.bind(this)
 
         socket.on('userConnected', (user) => {
+            console.log(`${user.id} joined`)
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
             const myTurn = gameInfo.currentUserTurn === socket.id
+            let audit = this.state.audit
+            audit.push(`${gameInfo.joinedUserId} joined ${gameInfo.gameId}`, `${gameInfo.currentUserTurn} has current turn`)
             this.setState({
                 isTurn: myTurn,
                 users: gameInfo.users,
-                quote: `${gameInfo.joinedUserId} joined ${gameInfo.gameId}, ${gameInfo.currentUserTurn} has current turn`
+                audit
             })
         })
 
         socket.on('userPickedCard', pickInfo => {
             const myTurn = pickInfo.userId === socket.id 
+            let audit = this.state.audit
+            audit.push(`${pickInfo.userId} picked ${pickInfo.card.number + pickInfo.card.suit}`, `${pickInfo.nextUserTurn} has turn`)
             this.setState({
                 isTurn: myTurn,
                 card: pickInfo.card,
-                quote: `${pickInfo.userId} picked ${pickInfo.card.number + pickInfo.card.suit}, ${pickInfo.nextUserTurn} has turn`,
+                audit,
                 rule: pickInfo.rule,
                 cardCount:pickInfo.cardCount,
                 kingCount:pickInfo.kingCount
@@ -55,10 +60,11 @@ class App extends React.Component {
     }
 
     handleUsernameSelected(usernameSelected){
-        console.log(usernameSelected)
         this.setState({
             username:usernameSelected
         })
+        socket.emit('usernameSelected', usernameSelected)
+        socket.emit('joinGame')
     }
 
     handleUserConnect(user) {
@@ -76,7 +82,6 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        socket.emit('joinGame')
     }
 
     render() {
@@ -99,7 +104,7 @@ class App extends React.Component {
                     </div>
                 </nav>
                 <section className="section">
-                    <Narrator quote={this.state.quote} />
+                    <Audit items={this.state.audit} />
                     <div className="container">
                         {card}
                         <UserList users={users} />
