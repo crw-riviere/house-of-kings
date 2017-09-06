@@ -5,13 +5,15 @@ import UserList from './UserList.jsx'
 import Card from './Card.jsx'
 import CardButton from './CardButton.jsx'
 import Narrator from './Narrator.jsx'
+import UsernameModal from './UsernameModal.jsx'
 
 const socket = openSocket('http://localhost:3000');
 
 class App extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            username:undefined,
             isTurn: false,
             users: [],
             quote: 'Welcome',
@@ -21,12 +23,12 @@ class App extends React.Component {
             kingCount:4
         }
 
+        this.handleUsernameSelected = this.handleUsernameSelected.bind(this)
+
         socket.on('userConnected', (user) => {
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
-            console.log(socket.id)
-            console.log(gameInfo.currentUserTurn)
             const myTurn = gameInfo.currentUserTurn === socket.id
             this.setState({
                 isTurn: myTurn,
@@ -36,8 +38,6 @@ class App extends React.Component {
         })
 
         socket.on('userPickedCard', pickInfo => {
-            console.log(socket.id)
-            console.log(pickInfo.userId)
             const myTurn = pickInfo.userId === socket.id 
             this.setState({
                 isTurn: myTurn,
@@ -51,6 +51,13 @@ class App extends React.Component {
 
         socket.on('userDisconnected', (userInfo) => {
             this.handleUserDisconnect(userInfo);
+        })
+    }
+
+    handleUsernameSelected(usernameSelected){
+        console.log(usernameSelected)
+        this.setState({
+            username:usernameSelected
         })
     }
 
@@ -75,12 +82,15 @@ class App extends React.Component {
     render() {
         const users = this.state.users
         const myTurn = this.state.isTurn
+
         let card = 'No card'
         if (this.state.card) {
             card = <Card number={this.state.card.number} suit={this.state.card.suit} rule={this.state.rule}/>
         }
-        return (
-            <div>
+
+        let app = !this.state.username ? 
+        <UsernameModal onSubmit={this.handleUsernameSelected} /> :
+<div>
                 <nav className="navbar">
                     <div className="navbar-brand">
                         <a className="navbar-item">
@@ -118,6 +128,9 @@ class App extends React.Component {
                     </div>
                 </footer>
             </div>
+        
+        return (
+            app
         )
     }
 }
