@@ -9,7 +9,7 @@ export default class Card extends React.Component {
     render() {
         const cardColorClass = Deck.getCardColor(this.props.suit) + '-card'
         return (
-            <div className="box">
+            <div className="box" style={{'height':'140px','overflow':'scroll', 'overflowX':'hidden'}}>
                 <article className="media">
                     <div className="media-left">
                         <figure className="image is-64x64">

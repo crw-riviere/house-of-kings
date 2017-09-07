@@ -42,4 +42,8 @@ export default class Game {
         const newUserList = this.users.filter(x => x !== userId)
         this.users = newUserList
     }
+
+    reshuffle(){
+        this.cards = Deck.fullShuffled()
+    }
 }

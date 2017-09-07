@@ -19,6 +19,10 @@ io.on('connection', (socket) => {
     console.log(socket.id + ' connected')
 
     socket.on('usernameSelected', (username) => {
+        if(!username){
+            return
+        }
+
         socket.username = username
         io.emit('userConnected', {
             id: username
@@ -34,7 +38,9 @@ io.on('connection', (socket) => {
             joinedUserId: socket.username,
             gameId: game.id,
             currentUserTurn: game.currentUserTurn,
-            users: game.users
+            users: game.users,
+            cardCount: game.cardCount,
+            kingCount: game.kingCount
         })
     })
 

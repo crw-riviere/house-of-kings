@@ -52,3 +52,11 @@ test('king count should return how many kings are left in the deck', () => {
     game.userPickCard(1)
     expect(game.kingCount).toBe(1)
 })
+
+test('reshuffle should populate the deck', () => {
+    const game = new Game(1,[{suit:'',number:'K'}], [1])
+    expect(game.cardCount).toEqual(1)
+
+    game.reshuffle()
+    expect(game.cardCount).toBe(52)
+})
