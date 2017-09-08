@@ -35,11 +35,11 @@ class App extends React.Component {
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
-            const myTurn = gameInfo.currentUserTurn === this.state.username
+            const myTurn = gameInfo.currentUserTurn.id === this.state.username
             let audit = this.state.audit
             audit.push(
-                <span>{gameInfo.joinedUserId} joined {gameInfo.gameId}</span>,
-                <span>{gameInfo.currentUserTurn} has current turn</span>)
+                <span>{gameInfo.joinedUser.id} joined {gameInfo.gameId}</span>,
+                <span>{gameInfo.currentUserTurn.id} has current turn</span>)
             this.setState({
                 isTurn: myTurn,
                 users: gameInfo.users,
@@ -50,12 +50,12 @@ class App extends React.Component {
         })
 
         socket.on('userPickedCard', pickInfo => {
-            const myTurn = pickInfo.nextUserTurn === this.state.username
+            const myTurn = pickInfo.nextUserTurn.id === this.state.username
             const cardCount = pickInfo.cardCount
             let audit = this.state.audit
             audit.push(
-                <span>{pickInfo.userId} picked <span className={Deck.getCardColor(pickInfo.card.suit) + '-card'}>{pickInfo.card.number + pickInfo.card.suit}</span></span>,
-                <span>{pickInfo.nextUserTurn} has current turn</span>)
+                <span>{pickInfo.user.id} picked <span className={Deck.getCardColor(pickInfo.card.suit) + '-card'}>{pickInfo.card.number + pickInfo.card.suit}</span></span>,
+                <span>{pickInfo.nextUserTurn.id} has current turn</span>)
             this.setState({
                 users: pickInfo.users,
                 isTurn: myTurn,

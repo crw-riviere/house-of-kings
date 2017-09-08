@@ -1,5 +1,6 @@
 import http from 'http'
 import apiServer from './server'
+import User from '../models/user'
 import Deck from '../models/deck'
 import Game from '../models/game'
 import GameList from '../models/gameList'
@@ -23,7 +24,7 @@ io.on('connection', (socket) => {
             return
         }
 
-        socket.username = username
+        socket.user = new User(username)
         io.emit('userConnected', {
             id: username
         });
@@ -32,10 +33,10 @@ io.on('connection', (socket) => {
     socket.on('joinGame', (gameId) => {
         const game = gameList.getGame(defaultGameName)
         socket.gameId = game.id
-        game.addUser(socket.username)
+        game.addUser(socket.user)
         socket.join(defaultGameName)
         io.to(defaultGameName).emit('userJoinedGame', {
-            joinedUserId: socket.username,
+            joinedUser: socket.user,
             gameId: game.id,
             currentUserTurn: game.currentUserTurn,
             users: game.users,
@@ -45,8 +46,9 @@ io.on('connection', (socket) => {
     })
 
     socket.on('pickCard', () => {
+        console.log(`${socket.id} picked up card`)
         const game = gameList.getGame(socket.gameId)
-        const pickedCard = game.userPickCard(socket.username);
+        const pickedCard = game.userPickCard(socket.user.id);
 
         if (pickedCard) {
             console.log(`${socket.id} picked ${pickedCard.number + pickedCard.suit}`)
@@ -54,7 +56,7 @@ io.on('connection', (socket) => {
             const rule = rules.get(pickedCard.number)
 
             io.to(game.id).emit('userPickedCard', {
-                userId: socket.username,
+                user: socket.user,
                 users: game.users,
                 card: pickedCard,
                 nextUserTurn,
@@ -78,9 +80,9 @@ io.on('connection', (socket) => {
     socket.on('disconnect', (reason) => {
         console.log(socket.id + ' disconnected')
         const game = gameList.getGame(socket.gameId)
-        game.removeUser(socket.username)
+        game.removeUser(socket.user.id)
         io.emit('userDisconnected', {
-            userId: socket.username,
+            userId: socket.user.id,
             users: game.users
         });
     })

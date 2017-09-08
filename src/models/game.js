@@ -28,18 +28,18 @@ export default class Game {
         return this.currentUserTurn
     }
 
-    addUser(userId) {
-        this.users.push(userId)
+    addUser(user) {
+        this.users.push(user)
     }
 
     userPickCard(userId) {
-        if (this.currentUserTurn === userId) {
+        if (this.currentUserTurn.id === userId) {
             return this.cards.pop()
         }
     }
 
     removeUser(userId){
-        const newUserList = this.users.filter(x => x !== userId)
+        const newUserList = this.users.filter(x => x.id !== userId)
         this.users = newUserList
     }
 

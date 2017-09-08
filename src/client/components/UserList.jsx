@@ -8,10 +8,10 @@ export default class UserList extends React.Component {
 
     render() {
         const users = this.props.users
-        const userList = users.map((userId, index) =>
-            <div className="control" key={index}>
+        const userList = users.map((user, index) =>
+            <div className="control" key={user.id}>
                 <div className="tags has-addons">
-                    <span className="tag">{userId}</span>
+                    <span className="tag">{user.id}</span>
                     <span className="tag is-info">👍</span>
                 </div>
             </div>
