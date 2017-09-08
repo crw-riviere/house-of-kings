@@ -5,15 +5,15 @@ export default class UsernameModal extends React.Component {
         super(props);
 
         this.state = {
-            username:''
+            username: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
     }
 
-    handleChange(event){
+    handleChange(event) {
         this.setState({
-            username:event.target.value
+            username: event.target.value
         })
     }
 
@@ -24,17 +24,19 @@ export default class UsernameModal extends React.Component {
                 <div className="modal-background"></div>
                 <div className="modal-content">
                     <div className="box">
-                        <div className="field">
-                            <label className="label">Username</label>
-                            <div className="control">
-                                <input className="input is-large" type="text" value={this.state.username} onChange={this.handleChange} placeholder="please enter a username..." />
+                        <form onSubmit={(e) => { e.preventDefault(); this.props.onSubmit(username) }}>
+                            <div className="field">
+                                <label className="label">Username</label>
+                                <div className="control">
+                                    <input className="input is-large" type="text" value={this.state.username} onChange={this.handleChange} placeholder="please enter a username..." />
+                                </div>
                             </div>
-                        </div>
-                        <div className="field">
-                            <div className="control">
-                                <button className="button is-primary" onClick={() => this.props.onSubmit(username)}>Continue</button>
+                            <div className="field">
+                                <div className="control">
+                                    <button className="button is-primary" type="submit">Continue</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

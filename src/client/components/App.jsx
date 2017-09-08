@@ -6,6 +6,7 @@ import UserList from './UserList.jsx'
 import Card from './Card.jsx'
 import CardButton from './CardButton.jsx'
 import Audit from './Audit.jsx'
+import CountPanel from './CountPanel.jsx'
 import UsernameModal from './UsernameModal.jsx'
 import GameOverModal from './GameOverModal.jsx'
 import Deck from '../../models/deck.js'
@@ -49,13 +50,14 @@ class App extends React.Component {
         })
 
         socket.on('userPickedCard', pickInfo => {
-            const myTurn = pickInfo.userId === this.state.username
+            const myTurn = pickInfo.nextUserTurn === this.state.username
             const cardCount = pickInfo.cardCount
             let audit = this.state.audit
             audit.push(
                 <span>{pickInfo.userId} picked <span className={Deck.getCardColor(pickInfo.card.suit) + '-card'}>{pickInfo.card.number + pickInfo.card.suit}</span></span>,
                 <span>{pickInfo.nextUserTurn} has current turn</span>)
             this.setState({
+                users: pickInfo.users,
                 isTurn: myTurn,
                 card: pickInfo.card,
                 audit,
@@ -63,6 +65,14 @@ class App extends React.Component {
                 cardCount: cardCount,
                 kingCount: pickInfo.kingCount,
                 isGameOver: cardCount === 0
+            })
+        })
+
+        socket.on('reshuffled', gameInfo => {
+            this.setState({
+                isGameOver: false,
+                cardCount: gameInfo.cardCount,
+                kingCount: gameInfo.kingCount
             })
         })
 
@@ -91,7 +101,7 @@ class App extends React.Component {
         socket.emit('pickCard')
     }
 
-    handleReshuffle(){
+    handleReshuffle() {
         socket.emit('reshuffle')
     }
 
@@ -107,9 +117,10 @@ class App extends React.Component {
     render() {
         const users = this.state.users
         const myTurn = this.state.isTurn
-
         let usernameModal = <UsernameModal onSubmit={this.handleUsernameSelected} />
-        let actionButton = this.state.isGameOver ? <GameOverModal onClick={() => this.handleReshuffle()} /> : <CardButton isTurn={myTurn} onClick={() => this.handlePickCard()} />
+        let actionButton = this.state.isGameOver ?
+            <GameOverModal onClick={() => this.handleReshuffle()} /> :
+            <CardButton isTurn={myTurn} onClick={() => this.handlePickCard()} />
 
         let app = !this.state.username ? usernameModal :
             <div>
@@ -125,20 +136,7 @@ class App extends React.Component {
                         <Audit items={this.state.audit} />
                         <Card number={this.state.card.number} suit={this.state.card.suit} rule={this.state.rule} />
                         <UserList users={users} />
-                        <nav className="level is-mobile">
-                            <div className="level-item has-text-centered">
-                                <div>
-                                    <p className="heading">Cards</p>
-                                    <p className="title">{this.state.cardCount}</p>
-                                </div>
-                            </div>
-                            <div className="level-item has-text-centered">
-                                <div>
-                                    <p className="heading">Kings</p>
-                                    <p className="title">{this.state.kingCount}</p>
-                                </div>
-                            </div>
-                        </nav>
+                        <CountPanel cardCount={this.state.cardCount} kingCount={this.state.kingCount}/>
                         {actionButton}
                     </div>
                 </section>

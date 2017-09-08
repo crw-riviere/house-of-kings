@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
 
             io.to(game.id).emit('userPickedCard', {
                 userId: socket.username,
+                users: game.users,
                 card: pickedCard,
                 nextUserTurn,
                 rule,
@@ -62,6 +63,16 @@ io.on('connection', (socket) => {
                 kingCount: game.kingCount
             })
         }
+    })
+
+    socket.on('reshuffle', () => {
+        console.log(socket.gameId + ' reshuffled')
+        const game = gameList.getGame(socket.gameId)
+        game.reshuffle()
+        io.to(game.id).emit('reshuffled', {
+          cardCount: game.cardCount,
+          kingCount: game.kingCount  
+        })
     })
 
     socket.on('disconnect', (reason) => {
