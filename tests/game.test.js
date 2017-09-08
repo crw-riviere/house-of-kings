@@ -67,6 +67,16 @@ test('king count should return how many kings are left in the deck', () => {
     expect(game.kingCount).toBe(1)
 })
 
+test('picking a king should increment user king count', () => {
+    const user1 = new User(1)
+    
+    const game = new Game(1,[{suit:'',number:'K'},{suit:'',number:'K'},], [user1])
+    expect(game.currentUserTurn.kingCount).toEqual(0)
+
+    game.userPickCard(1)
+    expect(game.currentUserTurn.kingCount).toBe(1)
+})
+
 test('reshuffle should populate the deck', () => {
     const game = new Game(1,[{suit:'',number:'K'}])
     expect(game.cardCount).toEqual(1)

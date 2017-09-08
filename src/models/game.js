@@ -34,7 +34,11 @@ export default class Game {
 
     userPickCard(userId) {
         if (this.currentUserTurn.id === userId) {
-            return this.cards.pop()
+            const card = this.cards.pop()
+            if(card.number === 'K'){
+                this.currentUserTurn.kingCount++
+            }
+            return card
         }
     }
 

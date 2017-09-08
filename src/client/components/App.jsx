@@ -127,11 +127,11 @@ class App extends React.Component {
                 <nav className="navbar">
                     <div className="navbar-brand">
                         <a className="navbar-item">
-                            House of Kings
+                            House of Kings 👑
                         </a>
                     </div>
                 </nav>
-                <section className="section">
+                <section className="section is-medium">
                     <div className="container">
                         <Audit items={this.state.audit} />
                         <Card number={this.state.card.number} suit={this.state.card.suit} rule={this.state.rule} />
@@ -140,13 +140,6 @@ class App extends React.Component {
                         {actionButton}
                     </div>
                 </section>
-                <footer className="footer">
-                    <div className="container">
-                        <div className="content has-text-centered">
-                            <p>Made by Fliss and Coco</p>
-                        </div>
-                    </div>
-                </footer>
             </div>
 
         return (

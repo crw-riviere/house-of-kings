@@ -12,7 +12,9 @@ export default class UserList extends React.Component {
             <div className="control" key={user.id}>
                 <div className="tags has-addons">
                     <span className="tag">{user.id}</span>
-                    <span className="tag is-info">👍</span>
+                    <span className="tag">
+                        {'🤴'.repeat(user.kingCount)}
+                        </span>
                 </div>
             </div>
         )

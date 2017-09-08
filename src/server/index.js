@@ -17,17 +17,17 @@ const defaultGameName = 'Default Game'
 const gameList = new GameList()
 
 io.on('connection', (socket) => {
-    console.log(socket.id + ' connected')
+    console.log(`${socket.id} connected`)
 
     socket.on('usernameSelected', (username) => {
-        if(!username){
-            return
+        if (username) {
+            socket.username = username
+            socket.user = new User(username)
+            console.log(`${socket.id} created user`)
+            io.emit('userConnected', {
+                id: username
+            });
         }
-
-        socket.user = new User(username)
-        io.emit('userConnected', {
-            id: username
-        });
     })
 
     socket.on('joinGame', (gameId) => {
@@ -49,9 +49,8 @@ io.on('connection', (socket) => {
         console.log(`${socket.id} picked up card`)
         const game = gameList.getGame(socket.gameId)
         const pickedCard = game.userPickCard(socket.user.id);
-
         if (pickedCard) {
-            console.log(`${socket.id} picked ${pickedCard.number + pickedCard.suit}`)
+            console.log(`${socket.id} picked ${pickedCard}`)
             const nextUserTurn = game.nextUserTurn()
             const rule = rules.get(pickedCard.number)
 
@@ -72,17 +71,17 @@ io.on('connection', (socket) => {
         const game = gameList.getGame(socket.gameId)
         game.reshuffle()
         io.to(game.id).emit('reshuffled', {
-          cardCount: game.cardCount,
-          kingCount: game.kingCount  
+            cardCount: game.cardCount,
+            kingCount: game.kingCount
         })
     })
 
     socket.on('disconnect', (reason) => {
         console.log(socket.id + ' disconnected')
         const game = gameList.getGame(socket.gameId)
-        game.removeUser(socket.user.id)
+        game.removeUser(socket.username)
         io.emit('userDisconnected', {
-            userId: socket.user.id,
+            userId: socket.username,
             users: game.users
         });
     })
