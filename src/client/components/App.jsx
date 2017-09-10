@@ -10,6 +10,7 @@ import CountPanel from './CountPanel.jsx'
 import UsernameModal from './UsernameModal.jsx'
 import GameOverModal from './GameOverModal.jsx'
 import Deck from '../../models/deck.js'
+import '../../../public/favicon.ico'
 
 const socket = openSocket('http://localhost:3000');
 
@@ -136,6 +137,7 @@ class App extends React.Component {
                         <Audit items={this.state.audit} />
                         <Card number={this.state.card.number} suit={this.state.card.suit} rule={this.state.rule} />
                         <UserList users={users} />
+                        <br/>
                         <CountPanel cardCount={this.state.cardCount} kingCount={this.state.kingCount}/>
                         {actionButton}
                     </div>
