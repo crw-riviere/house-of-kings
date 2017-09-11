@@ -29,6 +29,7 @@ export default class Game {
     }
 
     addUser(user) {
+        user.joinedGameDate = Date.now()
         this.users.push(user)
     }
 
