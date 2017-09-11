@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
         const game = gameList.getGame(socket.gameId)
         const pickedCard = game.userPickCard(socket.user.id);
         if (pickedCard) {
-            console.log(`${socket.id} picked ${pickedCard}`)
+            console.log(`${socket.id} picked ${pickedCard.number} ${pickedCard.suit}`)
             const nextUserTurn = game.nextUserTurn()
             const rule = rules.get(pickedCard.number)
 

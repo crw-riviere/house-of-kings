@@ -23,8 +23,8 @@ class App extends React.Component {
             isGameOver: false,
             users: [],
             audit: [],
-            card: { suit: 'X', number: 'X' },
-            rule: { title: '', description: '' },
+            card: { suit: '🔥', number: '🔥' },
+            rule: { title: 'House of Kings', description: 'Pick a card to begin...' },
             cardCount: 52,
             kingCount: 4
         }
@@ -32,15 +32,14 @@ class App extends React.Component {
         this.handleUsernameSelected = this.handleUsernameSelected.bind(this)
 
         socket.on('userConnected', (user) => {
-            console.log(`${user.id} joined`)
         })
 
         socket.on('userJoinedGame', (gameInfo) => {
             const myTurn = gameInfo.currentUserTurn.id === this.state.username
             let audit = this.state.audit
             audit.push(
-                <span>{gameInfo.joinedUser.id} joined {gameInfo.gameId}</span>,
-                <span>{gameInfo.currentUserTurn.id} has current turn</span>)
+                `${gameInfo.joinedUser.id} joined the game`,
+                `${gameInfo.currentUserTurn.id} has current turn`)
             this.setState({
                 isTurn: myTurn,
                 users: gameInfo.users,
@@ -55,7 +54,7 @@ class App extends React.Component {
             const cardCount = pickInfo.cardCount
             let audit = this.state.audit
             audit.push(
-                <span>{pickInfo.user.id} picked <span className={Deck.getCardColor(pickInfo.card.suit) + '-card'}>{pickInfo.card.number + pickInfo.card.suit}</span></span>,
+                <span>{pickInfo.user.id} picked <span className={Deck.getCardColor(pickInfo.card.suit) + '-card'}>{pickInfo.card.number} {pickInfo.card.suit}</span></span>,
                 <span>{pickInfo.nextUserTurn.id} has current turn</span>)
             this.setState({
                 users: pickInfo.users,
@@ -70,7 +69,10 @@ class App extends React.Component {
         })
 
         socket.on('reshuffled', gameInfo => {
+            let audit = this.state.audit
+            audit.push('Game was reshuffled')
             this.setState({
+                audit,
                 isGameOver: false,
                 cardCount: gameInfo.cardCount,
                 kingCount: gameInfo.kingCount
@@ -107,7 +109,10 @@ class App extends React.Component {
     }
 
     handleUserDisconnect(userInfo) {
+        let audit = this.state.audit
+        audit.push(`${userInfo.userId} left the game`)
         this.setState({
+            audit,
             users: userInfo.users
         })
     }

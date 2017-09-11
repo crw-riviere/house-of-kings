@@ -77,10 +77,55 @@ test('picking a king should increment user king count', () => {
     expect(game.currentUserTurn.kingCount).toBe(1)
 })
 
+test('picking a thumb master should set thumb master', () => {
+    let user1 = new User(1)
+    
+    const game = new Game(1,[{suit:'',number:'5'},], [user1])
+    expect(user1.isThumbMaster).toBeFalsy()
+
+    game.userPickCard(1)
+    expect(user1.isThumbMaster).toBeTruthy()
+})
+
+test('picking a thumb master should remove previous thumb master', () => {
+    let user1 = new User(1)
+    user1.isThumbMaster = true
+    let user2 = new User(2)
+    
+    const game = new Game(1,[{suit:'',number:'5'},], [user1, user2])
+    expect(user1.isThumbMaster).toBeTruthy()
+
+    game.nextUserTurn()
+    game.userPickCard(2)
+    expect(user1.isThumbMaster).toBeFalsy()
+    expect(user2.isThumbMaster).toBeTruthy()
+})
+
 test('reshuffle should populate the deck', () => {
     const game = new Game(1,[{suit:'',number:'K'}])
     expect(game.cardCount).toEqual(1)
 
     game.reshuffle()
     expect(game.cardCount).toBe(52)
+})
+
+test('reshuffle should reset king count', () => {
+    let user1 = new User(1)
+    user1.kingCount = 4
+    const game = new Game(1,[],[user1])
+
+    game.reshuffle()
+    expect(user1.kingCount).toBe(0)
+})
+
+test('reshuffle should reset thumb master', () => {
+    let user1 = new User(1)
+    let user2 = new User(2)
+    user1.isThumbMaster = true
+    user2.isThumbMaster = true
+    const game = new Game(1,[],[user1, user2])
+
+    game.reshuffle()
+    expect(user1.isThumbMaster).toBeFalsy()
+    expect(user2.isThumbMaster).toBeFalsy()
 })

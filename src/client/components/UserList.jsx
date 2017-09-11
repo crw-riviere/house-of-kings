@@ -11,10 +11,9 @@ export default class UserList extends React.Component {
         const userList = users.map((user, index) =>
             <div className="control" key={user.id}>
                 <div className="tags has-addons">
-                    <span className="tag">{user.id}</span>
-                    <span className="tag">
-                        {'🤴'.repeat(user.kingCount)}
-                        </span>
+                    <span className="tag is-dark">{user.id}</span>
+                    {user.isThumbMaster && <span className="tag">👍</span>}
+                    {user.kingCount > 0 && <span className="tag">{'🤴'.repeat(user.kingCount)}</span>}
                 </div>
             </div>
         )

@@ -18,7 +18,7 @@ const rules = new Map(
         }],
         ['5', {
             title: 'Thumb Master',
-            description: 'When you put your thumb on the table everyone must follow and whomever is last must drink.'
+            description: 'When you put your thumb on the table everyone must follow, whomever is last must drink.'
         }],
         ['6', {
             title: 'Dunno lol',
