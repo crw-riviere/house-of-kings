@@ -28,7 +28,7 @@ export default class UsernameModal extends React.Component {
                             <div className="field">
                                 <label className="label">Username</label>
                                 <div className="control">
-                                    <input className="input is-large" type="text" value={this.state.username} onChange={this.handleChange} placeholder="please enter a username..." />
+                                    <input className="input is-large" type="text" value={this.state.username} onChange={this.handleChange} placeholder="please enter a username..." autoFocus/>
                                 </div>
                             </div>
                             <div className="field">

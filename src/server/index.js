@@ -72,7 +72,8 @@ io.on('connection', (socket) => {
         game.reshuffle()
         io.to(game.id).emit('reshuffled', {
             cardCount: game.cardCount,
-            kingCount: game.kingCount
+            kingCount: game.kingCount,
+            currentUserTurn: game.currentUserTurn,
         })
     })
 
@@ -82,7 +83,8 @@ io.on('connection', (socket) => {
         game.removeUser(socket.username)
         io.emit('userDisconnected', {
             userId: socket.username,
-            users: game.users
+            users: game.users,
+            currentUserTurn: game.currentUserTurn,
         });
     })
 })

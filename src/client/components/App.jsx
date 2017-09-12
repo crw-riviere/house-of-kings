@@ -69,13 +69,15 @@ class App extends React.Component {
         })
 
         socket.on('reshuffled', gameInfo => {
+            const myTurn = gameInfo.currentUserTurn.id === this.state.username
             let audit = this.state.audit
             audit.push('Game was reshuffled')
             this.setState({
                 audit,
                 isGameOver: false,
                 cardCount: gameInfo.cardCount,
-                kingCount: gameInfo.kingCount
+                kingCount: gameInfo.kingCount,
+                isTurn:myTurn
             })
         })
 
@@ -108,12 +110,14 @@ class App extends React.Component {
         socket.emit('reshuffle')
     }
 
-    handleUserDisconnect(userInfo) {
+    handleUserDisconnect(gameInfo) {
+        const myTurn = gameInfo.currentUserTurn.id === this.state.username
         let audit = this.state.audit
-        audit.push(`${userInfo.userId} left the game`)
+        audit.push(`${gameInfo.userId} left the game`)
         this.setState({
             audit,
-            users: userInfo.users
+            users: gameInfo.users,
+            isTurn:myTurn
         })
     }
 
