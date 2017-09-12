@@ -52,6 +52,7 @@ io.on('connection', (socket) => {
         if (pickedCard) {
             console.log(`${socket.id} picked ${pickedCard.number} ${pickedCard.suit}`)
             const nextUserTurn = game.nextUserTurn()
+            console.log(`${nextUserTurn} has current turn`)
             const rule = rules.get(pickedCard.number)
 
             io.to(game.id).emit('userPickedCard', {

@@ -6,7 +6,7 @@ var io = require('socket.io')(http, {
 
 apiServer.get('/api', (req, res) => {
     res.send({
-        message: 'I am das api sevvr!!'
+        message: 'I am the api server!!'
     })
 })
 

@@ -4,6 +4,8 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const nodeExternals = require('webpack-node-externals')
+const StartServerPlugin = require('start-server-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -13,12 +15,12 @@ const publicPath = '/';
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
 const publicUrl = '';
 
-module.exports = {
+let clientConfig = {
     entry: [
         './src/client/index'
     ],
     output: {
-        path: path.join(__dirname, '.build'),
+        path: path.join(__dirname, '.dist'),
         publicPath: 'http://localhost:3001/',
         filename: 'client.js'
     },
@@ -66,3 +68,39 @@ module.exports = {
         })
     ],
 }
+
+let serverConfig = {
+    target: 'node',
+    watch: true,
+    entry: [
+        'webpack/hot/poll?1000',
+        './src/server/index'
+    ],
+    output: {
+        path: path.join(__dirname, '.dist'),
+        filename: 'server.js'
+    },
+    externals: [nodeExternals({
+        whitelist: ['webpack/hot/poll?1000']
+    })],
+    module: {
+        rules: [{
+            test: /\.js?$/,
+            use: 'babel-loader',
+            exclude: /node_modules/
+        }]
+    },
+    plugins: [
+        new StartServerPlugin('server.js'),
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.NoEmitOnErrorsPlugin(),
+        // new webpack.DefinePlugin({
+        //     "process.env": {
+        //         "BUILD_TARGET": JSON.stringify('server')
+        //     }
+        // }),
+    ],
+}
+
+module.exports = [clientConfig, serverConfig]
