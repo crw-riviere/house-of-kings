@@ -141,7 +141,7 @@ class App extends React.Component {
                         </a>
                     </div>
                 </nav>
-                <section className="section is-medium">
+                <section className="section">
                     <div className="container">
                         <Audit items={this.state.audit} />
                         <Card number={this.state.card.number} suit={this.state.card.suit} rule={this.state.rule} />

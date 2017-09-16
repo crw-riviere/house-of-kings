@@ -1,5 +1,5 @@
 import http from 'http'
-import apiServer from './server'
+import server from './server'
 import User from '../models/user'
 import Deck from '../models/deck'
 import Game from '../models/game'
@@ -8,10 +8,10 @@ import {
     rules
 } from '../models/rules.js'
 
-const httpServer = http.createServer(apiServer)
+const httpServer = http.createServer(server)
 let io = require('socket.io')(httpServer)
 
-let currentApp = apiServer
+let currentApp = server
 
 const defaultGameName = 'Default Game'
 const gameList = new GameList()
@@ -95,7 +95,7 @@ httpServer.listen(3000)
 if (module.hot) {
     module.hot.accept('./server', () => {
         httpServer.removeListener('request', currentApp)
-        httpServer.on('request', apiServer)
-        currentApp = apiServer
+        httpServer.on('request', server)
+        currentApp = server
     })
 }

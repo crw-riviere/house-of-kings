@@ -1,14 +1,24 @@
-var apiServer = require('express')();
-var http = require('http').Server(apiServer);
+const path = require('path')
+const express = require('express')
+var server = express()
+var http = require('http').Server(server);
+
+const PublicPath = '.dist'
+
 var io = require('socket.io')(http, {
     origins: ['*']
 }); 
 
-apiServer.get('/api', (req, res) => {
+server.use(express.static('.dist'));
+
+server.get('/', (req, res) => {
+    res.sendFile(path.join(PublicPath, 'index.html'))
+})
+
+server.get('/api', (req, res) => {
     res.send({
-        message: 'I am the api server!!'
+        message: `__dirname: ${__dirname}`
     })
 })
 
-
-export default apiServer
+export default server

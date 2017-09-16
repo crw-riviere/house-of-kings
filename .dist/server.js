@@ -288,7 +288,7 @@ var _server = __webpack_require__(6);
 
 var _server2 = _interopRequireDefault(_server);
 
-var _user = __webpack_require__(8);
+var _user = __webpack_require__(9);
 
 var _user2 = _interopRequireDefault(_user);
 
@@ -300,11 +300,11 @@ var _game = __webpack_require__(3);
 
 var _game2 = _interopRequireDefault(_game);
 
-var _gameList = __webpack_require__(9);
+var _gameList = __webpack_require__(10);
 
 var _gameList2 = _interopRequireDefault(_gameList);
 
-var _rules = __webpack_require__(10);
+var _rules = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -405,33 +405,51 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(__dirname) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var apiServer = __webpack_require__(7)();
-var http = __webpack_require__(1).Server(apiServer);
+var path = __webpack_require__(7);
+var express = __webpack_require__(8);
+var server = express();
+var http = __webpack_require__(1).Server(server);
+
+var PublicPath = '.dist';
+
 var io = __webpack_require__(2)(http, {
     origins: ['*']
 });
 
-apiServer.get('/api', function (req, res) {
+server.use(express.static('.dist'));
+
+server.get('/', function (req, res) {
+    res.sendFile(path.join(PublicPath, 'index.html'));
+});
+
+server.get('/api', function (req, res) {
     res.send({
-        message: 'I am the api server!!'
+        message: '__dirname: ' + __dirname
     });
 });
 
-exports.default = apiServer;
+exports.default = server;
+/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
-module.exports = require("express");
+module.exports = require("path");
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports) {
+
+module.exports = require("express");
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -454,7 +472,7 @@ var User = function User(id) {
 exports.default = User;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -506,7 +524,7 @@ var GameList = function () {
 exports.default = GameList;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
