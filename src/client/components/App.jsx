@@ -1,7 +1,7 @@
 import React from 'react'
 import openSocket from 'socket.io-client'
 import 'bulma/css/bulma.css'
-import '../App.css'
+import '../app.css'
 import UserList from './UserList.jsx'
 import Card from './Card.jsx'
 import CardButton from './CardButton.jsx'
