@@ -71,74 +71,77 @@
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Deck = function () {
-    function Deck() {
-        _classCallCheck(this, Deck);
-    }
-
-    _createClass(Deck, null, [{
-        key: 'full',
-        value: function full() {
-            return suits.map(function (s) {
-                return numbers.map(function (n) {
-                    return {
-                        number: n,
-                        suit: s
-                    };
-                });
-            }).reduce(function (a, b) {
-                return a.concat(b);
-            });
-        }
-    }, {
-        key: 'fullShuffled',
-        value: function fullShuffled() {
-            return this.shuffleDeck(this.full());
-        }
-    }, {
-        key: 'shuffleDeck',
-        value: function shuffleDeck(deck) {
-            var currentIndex = deck.length,
-                temporaryValue,
-                randomIndex;
-
-            // While there remain elements to shuffle...
-            while (0 !== currentIndex) {
-
-                // Pick a remaining element...
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-
-                // And swap it with the current element.
-                temporaryValue = deck[currentIndex];
-                deck[currentIndex] = deck[randomIndex];
-                deck[randomIndex] = temporaryValue;
-            }
-
-            return deck;
-        }
-    }, {
-        key: 'getCardColor',
-        value: function getCardColor(suit) {
-            return suit === '♦' || suit === '♥' ? 'red' : 'black';
-        }
-    }]);
-
-    return Deck;
-}();
-
-exports.default = Deck;
-
+/* eslint no-param-reassign: "off" */
+/* eslint no-var: "off" */
+/* eslint one-var: "off" */
+/* eslint one-var-declaration-per-line: "off" */
 
 var numbers = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 var suits = ['♦', '♣️', '♥', '♠'];
+
+var Deck = function () {
+  function Deck() {
+    _classCallCheck(this, Deck);
+  }
+
+  _createClass(Deck, null, [{
+    key: 'full',
+    value: function full() {
+      return suits.map(function (s) {
+        return numbers.map(function (n) {
+          return {
+            number: n,
+            suit: s
+          };
+        });
+      }).reduce(function (a, b) {
+        return a.concat(b);
+      });
+    }
+  }, {
+    key: 'fullShuffled',
+    value: function fullShuffled() {
+      return this.shuffleDeck(this.full());
+    }
+  }, {
+    key: 'shuffleDeck',
+    value: function shuffleDeck(deck) {
+      var currentIndex = deck.length,
+          temporaryValue,
+          randomIndex;
+
+      // While there remain elements to shuffle...
+      while (currentIndex !== 0) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = deck[currentIndex];
+        deck[currentIndex] = deck[randomIndex];
+        deck[randomIndex] = temporaryValue;
+      }
+
+      return deck;
+    }
+  }, {
+    key: 'getCardColor',
+    value: function getCardColor(suit) {
+      return suit === '♦' || suit === '♥' ? 'red' : 'black';
+    }
+  }]);
+
+  return Deck;
+}();
+
+exports.default = Deck;
 
 /***/ }),
 /* 1 */

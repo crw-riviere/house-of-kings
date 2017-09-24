@@ -13466,47 +13466,52 @@ function updateLink (link, options, obj) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* eslint no-param-reassign: "off" */
+/* eslint no-var: "off" */
+/* eslint one-var: "off" */
+/* eslint one-var-declaration-per-line: "off" */
+
+const numbers = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const suits = ['♦', '♣️', '♥', '♠'];
+
 class Deck {
-    static full() {
-        return suits.map(s => numbers.map(n => ({
-            number: n,
-            suit: s
-        }))).reduce((a, b) => a.concat(b))
+  static full() {
+    return suits.map(s => numbers.map(n => ({
+      number: n,
+      suit: s,
+    }))).reduce((a, b) => a.concat(b));
+  }
+
+  static fullShuffled() {
+    return this.shuffleDeck(this.full());
+  }
+
+  static shuffleDeck(deck) {
+    var currentIndex = deck.length,
+      temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = deck[currentIndex];
+      deck[currentIndex] = deck[randomIndex];
+      deck[randomIndex] = temporaryValue;
     }
 
-    static fullShuffled() {
-        return this.shuffleDeck(this.full())
-    }
+    return deck;
+  }
 
-    static shuffleDeck(deck) {
-        var currentIndex = deck.length,
-            temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = deck[currentIndex];
-            deck[currentIndex] = deck[randomIndex];
-            deck[randomIndex] = temporaryValue;
-        }
-
-        return deck;
-    }
-
-    static getCardColor(suit){
-        return (suit === '♦' || suit === '♥') ? 'red' : 'black'
-    }
+  static getCardColor(suit) {
+    return (suit === '♦' || suit === '♥') ? 'red' : 'black';
+  }
 }
 /* harmony export (immutable) */ __webpack_exports__["default"] = Deck;
 
 
-const numbers = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
-const suits = ['♦', '♣️', '♥', '♠']
 
 /***/ }),
 /* 106 */
@@ -13536,7 +13541,7 @@ var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('root'));
+_reactDom2.default.render(_react2.default.createElement(_App2.default), document.getElementById('root'));
 
 /***/ }),
 /* 108 */
@@ -29750,8 +29755,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./App.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./App.css");
+		module.hot.accept("!!../../node_modules/css-loader/index.js??ref--1-1!./app.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js??ref--1-1!./app.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
