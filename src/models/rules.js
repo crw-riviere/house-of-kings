@@ -17,12 +17,12 @@ export default new Map(
       description: 'Last one to touch the floor must drink.',
     }],
     ['5', {
-      title: 'Thumb Master',
-      description: 'When you put your thumb on the table everyone must follow, whomever is last must drink.',
-    }],
-    ['6', {
       title: 'Mate',
       description: 'Choose someone to drink with you',
+    }],
+    ['6', {
+      title: 'Thumb Master',
+      description: 'When you put your thumb on the table everyone must follow, whomever is last must drink.',
     }],
     ['7', {
       title: 'Heaven',
