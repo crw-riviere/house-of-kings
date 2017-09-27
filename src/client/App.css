@@ -6,6 +6,10 @@ html, body{
     min-height: 100%;
 }
 
+.section{
+    padding: 2rem 1.5rem;
+}
+
 .red-card{
     color: red;
 }

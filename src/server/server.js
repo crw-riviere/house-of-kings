@@ -1,24 +1,25 @@
-const path = require('path')
-const express = require('express')
-var server = express()
-var http = require('http').Server(server);
+const path = require('path');
+const express = require('express');
 
-const PublicPath = '.dist'
+const server = express();
+const http = require('http').Server(server);
 
-var io = require('socket.io')(http, {
-    origins: ['*']
-}); 
+const PublicPath = '.dist';
+
+const io = require('socket.io')(http, {
+  origins: ['*'],
+});
 
 server.use(express.static('.dist'));
 
 server.get('/', (req, res) => {
-    res.sendFile(path.join(PublicPath, 'index.html'))
-})
+  res.sendFile(path.join(PublicPath, 'index.html'));
+});
 
 server.get('/api', (req, res) => {
-    res.send({
-        message: `__dirname: ${__dirname}`
-    })
-})
+  res.send({
+    message: `__dirname: ${__dirname}`,
+  });
+});
 
-export default server
+export default server;
