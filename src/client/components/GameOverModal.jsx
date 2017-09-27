@@ -1,8 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-export default function GameOverModal(props){
-    return (
-        <a className="button is-large is-fullwidth"
-        onClick={() => props.onClick()}>Play Again</a>
-    )
+export default function GameOverModal(props) {
+  return (
+    <a
+      className="button is-large is-fullwidth"
+      onClick={() => props.onClick()}
+    >Play Again</a>
+  );
 }
