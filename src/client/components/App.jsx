@@ -54,7 +54,7 @@ class App extends React.Component {
       const cardCount = pickInfo.cardCount;
       const audit = this.state.audit;
       audit.push(
-        <span>{pickInfo.user.id} picked <span className={Deck.getCardColor(pickInfo.card.suit) + '-card'}>{pickInfo.card.number} {pickInfo.card.suit}</span></span>,
+        <span>{pickInfo.user.id} picked <span className={Deck.getCardColor(pickInfo.card.suit) + '-card'}>{pickInfo.card.number} <span className="has-text-weight-bold">{pickInfo.card.suit}</span></span></span>,
         <span>{pickInfo.nextUserTurn.id} has current turn</span>);
       this.setState({
         users: pickInfo.users,
@@ -137,7 +137,7 @@ class App extends React.Component {
         <nav className="navbar">
           <div className="navbar-brand">
             <a className="navbar-item">
-                            House of Kings <span role="img" aria-label="king's crown">👑</span>
+            House of Kings&nbsp;<span role="img" aria-label="king's crown">👑</span>
             </a>
           </div>
         </nav>

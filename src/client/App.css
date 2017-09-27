@@ -6,8 +6,12 @@ html, body{
     min-height: 100%;
 }
 
+.content blockquote{
+    padding: 0.5em 1.5em;
+}
+
 .section{
-    padding: 2rem 1.5rem;
+    padding: 1rem 1.5rem;
 }
 
 .red-card{

@@ -30,6 +30,7 @@ export default class UsernameModal extends React.Component {
                 <div className="control">
                   <input
                     className="input is-large"
+                    maxLength="10"
                     type="text"
                     value={this.state.username}
                     onChange={this.handleChange}
