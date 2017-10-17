@@ -28,6 +28,7 @@
   },
   "scripts": {
     "test": "jest",
+    "test:acceptance": "jest tests/acceptance",
     "start:client": "webpack-dev-server --config webpack.dev.js",
     "start:server": "rm -rf ./dist && webpack --config webpack.dev.js",
     "start": "rm -rf ./.dist && npm-run-all --parallel start:server start:client",
@@ -45,6 +46,7 @@
     "file-loader": "^0.11.2",
     "interpolate-html-plugin": "^2.0.0",
     "jest": "^20.0.4",
+    "nightmare": "^2.10.0",
     "url-loader": "^0.5.9",
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"

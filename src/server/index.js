@@ -46,9 +46,9 @@ io.on('connection', (socket) => {
     const game = gameList.getGame(socket.gameId);
     const pickedCard = game.userPickCard(socket.username);
     if (pickedCard) {
-      console.log(`${socket.id} picked ${pickedCard.number} ${pickedCard.suit}`);
+      console.log(`${socket.id} picked ${pickedCard.number} ${pickedCard.suit}, ${game.cardCount} remaining card(s)`);
       const nextUserTurn = game.nextUserTurn();
-      console.log(`${nextUserTurn} has current turn`);
+      console.log(`${nextUserTurn.id} has current turn`);
       const rule = Rules.get(pickedCard.number);
 
       io.to(game.id).emit('userPickedCard', {

@@ -1,6 +1,6 @@
-import Game from '../src/models/game'
-import Deck from '../src/models/deck'
-import User from '../src/models/user'
+import Game from '../../src/models/game'
+import Deck from '../../src/models/deck'
+import User from '../../src/models/user'
 
 test('pick card removes a card from the deck', () => {
     const game = new Game(1, null, [new User(1)])

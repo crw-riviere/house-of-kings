@@ -1,5 +1,5 @@
-import Game from '../src/models/game'
-import GameList from '../src/models/gameList'
+import Game from '../../src/models/game'
+import GameList from '../../src/models/gameList'
 
 test('get a game should return the game from the game list', () => {
     const gameName = 'test'

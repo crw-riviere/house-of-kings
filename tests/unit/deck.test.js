@@ -1,4 +1,4 @@
-import Deck from '../src/models/deck'
+import Deck from '../../src/models/deck'
 
 test('deck returns a full set of cards', () => {
     const cards = Deck.full();
