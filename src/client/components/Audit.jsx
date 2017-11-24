@@ -9,7 +9,7 @@ export default class Audit extends React.Component {
     const items = this.props.items;
     const auditList = items.slice(items.length - 2, items.length).map((items, i) => <span className="is-size-7" key={i}>{items}<br /></span>);
     return (
-      <div className="content">
+      <div className="content panel-audit">
         <blockquote>{auditList}</blockquote>
       </div>
     );

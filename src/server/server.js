@@ -18,7 +18,7 @@ server.get('/', (req, res) => {
 
 server.get('/api', (req, res) => {
   res.send({
-    message: `__dirname: ${__dirname}`,
+    message: `dirname: ${__dirname}`,
   });
 });
 

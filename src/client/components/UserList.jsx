@@ -21,7 +21,7 @@ export default class UserList extends React.Component {
       </div>),
     );
     return (
-      <div className="field is-grouped is-grouped-multiline">
+      <div className="field is-grouped is-grouped-multiline panel-userlist">
         {userList}
       </div>
     );

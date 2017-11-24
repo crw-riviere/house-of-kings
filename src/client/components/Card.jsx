@@ -7,14 +7,16 @@ export default class Card extends React.Component {
   }
 
   render() {
-    const cardColorClass = `${Deck.getCardColor(this.props.suit)  }-card`;
+    const cardColorClass = `${Deck.getCardColor(this.props.suit)}-card`;
     return (
-      <div className="box" style={{ minHeight: '160px', overflow: 'hidden' }}>
+      <div className="box panel-card" style={{ minHeight: '200px', overflow: 'hidden' }}>
         <article className="media">
           <div className="media-content">
             <div className="content">
               <p className="">
-                <strong className={cardColorClass}>{this.props.number} {this.props.suit}</strong> | <strong>{this.props.rule.title}</strong>
+                <span>
+                  <strong className={cardColorClass}>{this.props.number} {this.props.suit}</strong> | <strong>{this.props.rule.title}</strong>
+                </span>
                 <br />
                 <span className="is-size-6">{this.props.rule.description}</span>
               </p>
